@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepak Motors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #ff8c00; /* Deepak Orange */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .motor {
+            color: #007bff; /* Motor Blue */
+        }
+        .intro {
+            margin: 20px 0;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        .services {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            padding: 0 10px;
+        }
+        .service {
+            background-color: #007bff; /* Motor Blue */
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1 1 30%;
+            margin: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .service:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        .form-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: #007bff; /* Motor Blue */
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        button {
+            background-color: #007bff; /* Motor Blue */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker Blue */
+            transform: translateY(-2px);
+        }
+        .thank-you-message {
+            display: none;
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: green;
+        }
+        .uploaded-image {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .uploaded-image img {
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .language-toggle {
+            margin: 20px;
+            text-align: left;
+        }
+        @media (max-width: 600px) {
+            .services {
+                flex-direction: column;
+                align-items: center;
+            }
+            .service {
+                flex: 1 1 90%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="language-toggle">
+            <button id="toggleLanguageButton">Switch to Gujarati</button>
+        </div>
+        <h1><span style="color: #ff8c00;">Deepak</span> <span class="motor">Motors</span></h1>
+        <p id="tagline">Your trusted car garage</p>
+    </header>
+    <main>
+        <div class="intro">
+            <p id="welcomeMessage">Welcome to Deepak Motors! We provide the best services for your vehicle.</p>
+        </div>
+        <div class="services">
+            <div class="service">
+                <h2 id="service1">Oil Change</h2>
+                <p id="service1desc">Keeps your engine running smoothly.</p>
+            </div>
+            <div class="service">
+                <h2 id="service2">Tire Rotation</h2>
+                <p id="service2desc">Extends the life of your tires.</p>
+            </div>
+            <div class="service">
+                <h2 id="service3">Brake Inspection</h2>
+                <p id="service3desc">Ensures safety on the road.</p>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <h2 id="formTitle">Service Request Form</h2>
+            <form id="serviceForm" action="https://formspree.io/f/xovqqgjl" method="POST" enctype="multipart/form-data">
+                <input type="text" name="ownerName" placeholder="Owner's Name" required>
+                <input type="text" name="carName" placeholder="Car Name" required>
+                <input type="text" name="carModel" placeholder="Car Model" required>
+                <input type="text" name="contactNumber" placeholder="Contact Number" required>
+                <input type="text" name="mechanicName" placeholder="Mechanic Name" required>
+                <input type="date" name="dateOfGiving" required>
+                <input type="date" name="dateOfReturn" required>
+                <select name="faultOption">
+                    <option value="" disabled selected>Select Fault (if any)</option>
+                    <option value="engine">Engine Issue</option>
+                    <option value="brakes">Brake Issue</option>
+                    <option value="tire">Tire Issue</option>
+                    <option value="other">Other</option>
+                </select>
+                <input type="file" name="carImage" accept="image/*" id="carImageInput" capture="camera">
+                <button type="button" id="takePhotoButton">Take Photo</button>
+                <button type="submit">Submit</button>
+                <button type="button" id="createBillButton" style="margin-top: 10px;">Create Bill</button>
+            </form>
+            <div class="thank-you-message" id="thankYouMessage">
+                Thank you for contacting Deepak Motors!
+            </div>
+            <div class="uploaded-image" id="uploadedImageContainer">
+                <h3>Uploaded Image:</h3>
+                <img id="uploadedImage" src="" alt="Uploaded Car Image">
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Deepak Motors. All rights reserved.</p>
+    </footer>
+    <script>
+        const translations = {
+            english: {
+                title: "Deepak Motors",
+                tagline: "Your trusted car garage",
+                welcomeMessage: "Welcome to Deepak Motors! We provide the best services for your vehicle.",
+                formTitle: "Service Request Form",
+                service1: "Oil Change",
+                service1desc: "Keeps your engine running smoothly.",
+                service2: "Tire Rotation",
+                service2desc: "Extends the life of your tires.",
+                service3: "Brake Inspection",
+                service3desc: "Ensures safety on the road.",
+                thankYouMessage: "Thank you for contacting Deepak Motors!"
+            },
+            gujarati: {
+                title: "દીપક મોટર્સ",
+                tagline: "તમારો વિશ્વસનીય કાર ગેરેજ",
+                welcomeMessage: "દીપક મોટર્સમાં આપનું સ્વાગત છે! અમે તમારી વાહન માટે શ્રેષ્ઠ સેવાઓ પ્રદાન કરીએ છીએ.",
+                formTitle: "સેવા વિનંતી ફોર્મ",
+                service1: "તેલ બદલવું",
+                service1desc: "તમારા એન્જિનને સરળતાથી ચલાવતા રાખે છે.",
+                service2: "ટાયર ફેરવવું",
+                service2desc: "તમારા ટાયરનો જીવનકાળ વધારવા માટે.",
+                service3: "બ્રેક નિરીક્ષણ",
+                service3desc: "તમારા માર્ગ પર સલામતી સુનિશ્ચિત કરે છે.",
+                thankYouMessage: "દીપક મોટર્સને સંપર્ક કરવા બદલ આભાર!"
+            }
+        };
+
+        let currentLanguage = 'english'; // Default language
+
+        document.getElementById("serviceForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevents the default form submission
+
+            const imageInput = document.getElementById("carImageInput");
+            const thankYouMessage = document.getElementById("thankYouMessage");
+            const uploadedImageContainer = document.getElementById("uploadedImageContainer");
+            const uploadedImage = document.getElementById("uploadedImage");
+
+            // Show thank you message
+            thankYouMessage.style.display = 'block';
+            thankYouMessage.style.opacity = 1;
+
+            // Hide the form
+            this.style.display = 'none';
+
+            // Display uploaded image if exists
+            if (imageInput.files.length > 0) {
+                const file = imageInput.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    uploadedImage.src = e.target.result;
+                    uploadedImageContainer.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+
+            // Submit the form programmatically
+            setTimeout(() => {
+                this.submit(); // Submit the form to Formspree
+            }, 100); // Wait a moment before submission
+        });
+
+        document.getElementById("takePhotoButton").addEventListener("click", function() {
+            const imageInput = document.getElementById("carImageInput");
+            imageInput.click(); // Trigger the file input click
+        });
+
+        document.getElementById("createBillButton").addEventListener("click", function() {
+            window.location.href = "bill.html"; // Redirect to bill.html
+        });
+
+        document.getElementById("toggleLanguageButton").addEventListener("click", function() {
+            currentLanguage = currentLanguage === 'english' ? 'gujarati' : 'english';
+            updateText();
+        });
+
+        function updateText() {
+            const lang = translations[currentLanguage];
+            document.querySelector("h1").innerHTML = `<span style="color: #ff8c00;">${lang.title.split(" ")[0]}</span> <span class="motor">${lang.title.split(" ")[1]}</span>`;
+            document.getElementById("tagline").textContent = lang.tagline;
+            document.getElementById("welcomeMessage").textContent = lang.welcomeMessage;
+            document.getElementById("formTitle").textContent = lang.formTitle;
+            document.getElementById("service1").textContent = lang.service1;
+            document.getElementById("service1desc").textContent = lang.service1desc;
+            document.getElementById("service2").textContent = lang.service2;
+            document.getElementById("service2desc").textContent = lang.service2desc;
+            document.getElementById("service3").textContent = lang.service3;
+            document.getElementById("service3desc").textContent = lang.service3desc;
+            document.getElementById("thankYouMessage").textContent = lang.thankYouMessage;
+            document.getElementById("toggleLanguageButton").textContent = currentLanguage === 'gujarati' ? "Switch to English" : "Switch to Gujarati";
+
+            // Update button texts
+            document.getElementById("takePhotoButton").textContent = currentLanguage === 'gujarati' ? "છબી લો" : "Take Photo";
+            document.querySelector("button[type='submit']").textContent = currentLanguage === 'gujarati' ? "મુદ્રિત કરો" : "Submit";
+            document.getElementById("createBillButton").textContent = currentLanguage === 'gujarati' ? "બિલ બનાવો" : "Create Bill";
+            
+            // Update form placeholders
+            document.querySelector('input[name="ownerName"]').placeholder = currentLanguage === 'gujarati' ? "માલિકનું નામ" : "Owner's Name";
+            document.querySelector('input[name="carName"]').placeholder = currentLanguage === 'gujarati' ? "ગાડીનું નામ" : "Car Name";
+            document.querySelector('input[name="carModel"]').placeholder = currentLanguage === 'gujarati' ? "ગાડીનું મોડેલ" : "Car Model";
+            document.querySelector('input[name="contactNumber"]').placeholder = currentLanguage === 'gujarati' ? "સંપર્ક નંબર" : "Contact Number";
+            document.querySelector('input[name="mechanicName"]').placeholder = currentLanguage === 'gujarati' ? "મેકેનિકનું નામ" : "Mechanic Name";
+            document.querySelector('select[name="faultOption"] option[disabled]').textContent = currentLanguage === 'gujarati' ? "ખામી પસંદ કરો (જોકે)" : "Select Fault (if any)";
+            document.querySelector('select[name="faultOption"] option[value="engine"]').textContent = currentLanguage === 'gujarati' ? "એન્જિન સમસ્યા" : "Engine Issue";
+            document.querySelector('select[name="faultOption"] option[value="brakes"]').textContent = currentLanguage === 'gujarati' ? "બ્રેક સમસ્યા" : "Brake Issue";
+            document.querySelector('select[name="faultOption"] option[value="tire"]').textContent = currentLanguage === 'gujarati' ? "ટાયર સમસ્યા" : "Tire Issue";
+            document.querySelector('select[name="faultOption"] option[value="other"]').textContent = currentLanguage === 'gujarati' ? "અન્ય" : "Other";
+        }
+
+        // Initialize with English text
+        updateText();
+    </script>
+</body>
+</html>

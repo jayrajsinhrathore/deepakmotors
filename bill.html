@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepak Motors - Garage Bill Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: orange;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 30px;
+            color: blue;
+            margin: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #bill-details {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #bill-details p {
+            margin: 5px 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .service-item input {
+            width: calc(50% - 5px);
+            margin-right: 5px;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: none;
+            }
+
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+                max-width: 100%;
+                padding: 10px;
+                margin: 0;
+            }
+
+            header, .footer {
+                page-break-inside: avoid;
+            }
+
+            button {
+                display: none;
+            }
+
+            #bill-details {
+                max-height: none;
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 600px) {
+            h1, h2 {
+                font-size: 24px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+
+            .service-item input {
+                width: calc(45% - 5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Deepak</h1>
+            <h2>Motors</h2>
+            <p>Your Trusted Garage Service</p>
+            <div class="contact-info">
+                <p>Email: dipakmotors@gmail.com</p>
+                <p>Phone: 9825536235</p>
+                <p>Address: Deepak Motors, New 23 33 Jagnath, Rajkot</p>
+            </div>
+        </header>
+        
+        <form id="bill-form">
+            <label for="bill-number">Bill Number:</label>
+            <input type="text" id="bill-number" required>
+
+            <label for="customer-name">Customer Name:</label>
+            <input type="text" id="customer-name" required>
+
+            <label for="service-details">Services Rendered:</label>
+            <div id="service-details">
+                <div class="service-item">
+                    <input type="text" placeholder="Service Description" class="service-desc" required>
+                    <input type="number" placeholder="Price (in ₹)" class="price" required>
+                </div>
+            </div>
+            <button type="button" id="add-service">Add Another Service</button>
+
+            <label for="gst">GST (in %):</label>
+            <input type="number" id="gst" value="0" min="0">
+
+            <label for="total-amount">Total Amount (in ₹):</label>
+            <input type="text" id="total-amount" readonly>
+
+            <button type="submit">Generate Bill</button>
+        </form>
+
+        <div id="bill-output" class="hidden">
+            <div id="bill-details">
+                <h2>Invoice</h2>
+                <p><strong>Bill Number:</strong> <span id="bill-number-output"></span></p>
+                <p><strong>Customer Name:</strong> <span id="customer-name-output"></span></p>
+                <p><strong>Services Rendered:</strong></p>
+                <div id="services-output"></div>
+                <p><strong>Total Amount:</strong> ₹<span id="total-amount-output"></span></p>
+                <p><strong>GST:</strong> ₹<span id="gst-amount-output"></span></p>
+                <hr>
+                <p><strong>Thank you for choosing Deepak Motors!</strong></p>
+                <div class="footer">
+                    <p>Visit us again!</p>
+                </div>
+            </div>
+            <button id="print-btn">Print Bill</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('add-service').addEventListener('click', function() {
+            const serviceDetails = document.getElementById('service-details');
+            const newService = document.createElement('div');
+            newService.classList.add('service-item');
+            newService.innerHTML = `
+                <input type="text" placeholder="Service Description" class="service-desc" required>
+                <input type="number" placeholder="Price (in ₹)" class="price" required>
+            `;
+            serviceDetails.appendChild(newService);
+            updateTotal();
+        });
+
+        function updateTotal() {
+            const prices = document.querySelectorAll('.price');
+            let total = 0;
+            prices.forEach(input => {
+                total += parseFloat(input.value) || 0;
+            });
+
+            const gstRate = parseFloat(document.getElementById('gst').value) || 0;
+            const gstAmount = total * (gstRate / 100);
+            total += gstAmount;
+
+            document.getElementById('total-amount').value = total.toFixed(2);
+        }
+
+        document.getElementById('gst').addEventListener('input', updateTotal);
+        document.getElementById('bill-form').addEventListener('input', updateTotal);
+
+        document.getElementById('bill-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const billNumber = document.getElementById('bill-number').value;
+            const customerName = document.getElementById('customer-name').value;
+            const totalAmount = document.getElementById('total-amount').value;
+
+            const serviceDescriptions = document.querySelectorAll('.service-desc');
+            const servicePrices = document.querySelectorAll('.price');
+
+            const servicesOutput = Array.from(serviceDescriptions).map((desc, index) => {
+                return `${desc.value} - ₹${servicePrices[index].value}`;
+            }).join('<br>');
+
+            document.getElementById('bill-number-output').innerText = billNumber;
+            document.getElementById('customer-name-output').innerText = customerName;
+            document.getElementById('total-amount-output').innerText = totalAmount;
+
+            const gstAmount = (parseFloat(totalAmount) - parseFloat(totalAmount) / (1 + (parseFloat(document.getElementById('gst').value) / 100))).toFixed(2);
+            document.getElementById('gst-amount-output').innerText = gstAmount;
+
+            document.getElementById('services-output').innerHTML = servicesOutput;
+            document.getElementById('bill-output').classList.remove('hidden');
+        });
+
+        document.getElementById('print-btn').addEventListener('click', function() {
+            window.print();
+        });
+    </script>
+</body>
+</html>
